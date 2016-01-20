@@ -27,7 +27,7 @@ class GenerateCommand extends Command {
 		Console::setCommand($this->command,"Generate Pattern Lab","The generate command generates an entire site a single time. By default it removes old content in <path>public/</path>, compiles the patterns and moves content from <path>source/</path> into <path>public/</path>","g");
 		Console::setCommandOption($this->command,"patternsonly","Generate only the patterns. Does NOT clean <path>public/</path>.","To generate only the patterns:","p");
 		Console::setCommandOption($this->command,"nocache","Set the cacheBuster value to 0.","To turn off the cacheBuster:","n");
-		
+		Console::setCommandOption($this->command,"update","Only update changed Patterns/Files.","u");
 	}
 	
 	public function run() {
@@ -36,7 +36,8 @@ class GenerateCommand extends Command {
 		$options                  = array();
 		$options["moveStatic"]    = (Console::findCommandOption("p|patternsonly")) ? false : true;
 		$options["noCacheBuster"] = Console::findCommandOption("n|nocache");
-		
+		$options["update"] 				= Console::findCommandOption("u|update");
+
 		$g = new Generator();
 		$g->generate($options);
 		$g->printSaying();

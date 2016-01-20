@@ -12,16 +12,8 @@
 
 namespace PatternLab;
 
-use \PatternLab\Annotations;
-use \PatternLab\Builder;
-use \PatternLab\Config;
-use \PatternLab\Console;
-use \PatternLab\Data;
-use \PatternLab\Dispatcher;
-use \PatternLab\FileUtil;
-use \PatternLab\PatternData;
-use \PatternLab\Timer;
-use \PatternLab\Util;
+use PatternLab\Console;
+use PatternLab\PatternData;
 
 class Generator extends Builder {
 	
@@ -54,33 +46,36 @@ class Generator extends Builder {
 		$exportClean   = (isset($options["exportClean"]))   ? $options["exportClean"] : false;
 		$watchMessage  = (isset($options["watchMessage"]))  ? $options["watchMessage"] : false;
 		$watchVerbose  = (isset($options["watchVerbose"]))  ? $options["watchVerbose"] : false;
-		
+		$update        = (isset($options["update"]))        ? $options["update"] : false;
+		Config::setOption("update",$update);
 		if ($noCacheBuster) {
 			Config::updateOption("cacheBuster",0);
 		}
-		
+
+		FileChangeList::init(
+				Config::getOption("publicDir").DIRECTORY_SEPARATOR."fileChangeList.csv"
+		);
 		// gather up all of the data to be used in patterns
 		Data::gather();
-		
+
 		// gather all of the various pattern info
 		$options = array();
 		$options["exportClean"] = $exportClean;
 		$options["exportFiles"] = $exportFiles;
 		PatternData::gather($options);
-		
 		// gather the annotations
 		Annotations::gather();
-		
+
 		// clean the public directory to remove old files
 		if ((Config::getOption("cleanPublic") == "true") && $moveStatic) {
 			FileUtil::cleanPublic();
 		}
-		
+
 		// render out the index and style guide
 		$this->generateIndex();
 		$this->generateStyleguide();
 		$this->generateViewAllPages();
-		
+
 		// render out the patterns and move them to public/patterns
 		$options = array();
 		$options["exportFiles"] = $exportFiles;
@@ -96,7 +91,8 @@ class Generator extends Builder {
 		
 		// update the change time so the auto-reload will fire (doesn't work for the index and style guide)
 		Util::updateChangeTime();
-		
+
+		FileChangeList::write();
 		if ($watchVerbose && $watchMessage) {
 			Console::writeLine($watchMessage);
 		} else {
@@ -145,8 +141,10 @@ class Generator extends Builder {
 				}
 				
 				// check to see if it's a new file or a file that has changed
-				if (!$ignored && $object->isFile() && (!file_exists($publicDir."/".$fileName))) {
+				$sourceFileName = $sourceDir.DIRECTORY_SEPARATOR.$fileName;
+				if (!$ignored && $object->isFile() && FileChangeList::hasChanged($sourceFileName)) {
 					FileUtil::moveStaticFile($fileName);
+					FileChangeList::update($sourceFileName);
 				}
 				
 			}
