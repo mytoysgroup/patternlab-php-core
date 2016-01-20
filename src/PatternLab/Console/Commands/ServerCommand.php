@@ -40,8 +40,8 @@ class ServerCommand extends Command {
 			$coreDir   = Config::getOption("coreDir");
 			
 			// start-up the server with the router
-			Console::writeInfo("server started on localhost:8080. use ctrl+c to exit...");
-			passthru("cd ".$publicDir." && ".$_SERVER["_"]." -S localhost:8080 ".$coreDir."/server/router.php");
+			Console::writeInfo("server started on localhost:8081. use ctrl+c to exit...");
+			passthru("cd ".$publicDir." && ".$_SERVER["_"]." -S localhost:8081 ".$coreDir."/server/router.php");
 			
 		}
 		
