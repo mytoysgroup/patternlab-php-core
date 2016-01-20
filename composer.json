@@ -1,20 +1,20 @@
 {
-	"name":             "pattern-lab/core",
-	"description":      "The core functionality for Pattern Lab.",
+	"name":             "mytoysgroup/core",
+	"description":      "MyToys Group adaption of the core functionality for Pattern Lab.",
 	"keywords":         ["pattern lab", "styleguide", "style guide", "atomic", "atomic design"],
-	"homepage":         "http://patternlab.io",
 	"license":          "MIT",
 	"authors": [
 		{
-			"name":         "Dave Olsen",
-			"email":        "dmolsen@gmail.com",
-			"homepage":     "http://dmolsen.com",
-			"role":         "Lead Developer"
+			"name": "Ingo Beyerlein",
+			"email": "ingo.beyerlein@mytoys.de"
 		},
 		{
-			"name":         "Brad Frost",
-			"homepage":     "http://bradfrostweb.com",
-			"role":         "Creator"
+			"name": "Mirko Zseby",
+			"email": "mirko.zseby@mytoys.de"
+		},
+		{
+			"name": "myToys GmbH, Shop IT",
+			"homepage": "http://mytoys.de/"
 		}
 	],
 	"support": {
