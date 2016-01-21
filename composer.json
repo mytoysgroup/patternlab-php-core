@@ -1,5 +1,5 @@
 {
-	"name":             "mytoysgroup/core",
+	"name":             "mytoysgroup/patternlab-php-core",
 	"description":      "MyToys Group adaption of the core functionality for Pattern Lab.",
 	"keywords":         ["pattern lab", "styleguide", "style guide", "atomic", "atomic design"],
 	"license":          "MIT",
